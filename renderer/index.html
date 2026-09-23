@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: file: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Hermes 控制台</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-home"><path d="M3 10.2 12 3l9 7.2"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.8 20v-5.6h4.4V20"/></g>
+    <g id="i-agent"><rect x="3.5" y="7" width="17" height="12.5" rx="3.2"/><path d="M12 7V3.6"/><circle cx="12" cy="3" r="1.2"/><circle cx="8.6" cy="13" r="1.35" fill="currentColor" stroke="none"/><circle cx="15.4" cy="13" r="1.35" fill="currentColor" stroke="none"/></g>
+    <g id="i-skills"><rect x="3.5" y="3.5" width="7.2" height="7.2" rx="1.6"/><rect x="13.3" y="3.5" width="7.2" height="7.2" rx="1.6"/><rect x="3.5" y="13.3" width="7.2" height="7.2" rx="1.6"/><rect x="13.3" y="13.3" width="7.2" height="7.2" rx="1.6"/></g>
+    <g id="i-ext"><path d="M12 3.4 20.6 8 12 12.6 3.4 8z"/><path d="M3.4 12.4 12 17l8.6-4.6"/><path d="M3.4 16.4 12 21l8.6-4.6"/></g>
+    <g id="i-model"><path d="M12 2.8 20 7.2v9.6L12 21.2 4 16.8V7.2z"/><path d="M12 12.4 20 7.2"/><path d="M12 12.4v8.8"/><path d="M12 12.4 4 7.2"/></g>
+    <g id="i-feishu"><path d="M21 3.6 3.6 11.4l5.2 2.1"/><path d="M21 3.6 12.6 21l-2.1-5.2"/><path d="M21 3.6 8.8 13.5"/></g>
+    <g id="i-logs"><path d="M6.2 3.5h7.6l4 4V20.5H6.2z"/><path d="M13.6 3.5V8h4.2"/><path d="M9 12.4h6"/><path d="M9 15.6h6"/><path d="M9 18.4h3.4"/></g>
+    <g id="i-settings"><circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.4M12 18.8v2.4M4.5 7.4l2.1 1.2M17.4 15.4l2.1 1.2M4.5 16.6l2.1-1.2M17.4 8.6l2.1-1.2"/></g>
+    <g id="i-search"><circle cx="10.8" cy="10.8" r="6.2"/><path d="M15.4 15.4 20 20"/></g>
+    <g id="i-bell"><path d="M6.5 10.2a5.5 5.5 0 1 1 11 0c0 4 1.5 5.4 1.5 5.4H5s1.5-1.4 1.5-5.4z"/><path d="M10.2 18.6a2 2 0 0 0 3.6 0"/></g>
+    <g id="i-play"><path d="M7.5 5.4 18 12 7.5 18.6z"/></g>
+    <g id="i-stop"><rect x="6.5" y="6.5" width="11" height="11" rx="1.8"/></g>
+    <g id="i-restart"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20.2 4.4v5h-5"/></g>
+    <g id="i-refresh"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20.2 4.4v5h-5"/></g>
+    <g id="i-key"><circle cx="8.2" cy="15.8" r="3.6"/><path d="M10.8 13.2 20 4"/><path d="M16.6 7.4l2.4 2.4"/></g>
+    <g id="i-star"><path d="M12 3.6l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 17l-5.3 2.8 1.1-5.9L3.5 9.8l5.9-.8z"/></g>
+    <g id="i-mic"><rect x="9.2" y="3" width="5.6" height="10.4" rx="2.8"/><path d="M6 11.4a6 6 0 0 0 12 0"/><path d="M12 17.4V21"/></g>
+    <g id="i-folder"><path d="M3.6 7.2h5.2l2 2.4h9.6v9.2H3.6z"/><path d="M3.6 9.2V6.2h5.2"/></g>
+    <g id="i-shield"><path d="M12 2.8 20 6v6.2c0 4.6-3.4 7.6-8 9-4.6-1.4-8-4.4-8-9V6z"/><path d="M9.2 12.2 11.4 14.4l3.8-4"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6 6 18"/></g>
+    <g id="i-min"><path d="M5 12h14"/></g>
+    <g id="i-max"><rect x="5.5" y="5.5" width="13" height="13" rx="2"/></g>
+  </defs>
+</svg>
+
+<div class="app">
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" class="mark-svg"><path d="M12 3.2 4.4 7.4v9.2L12 20.8l7.6-4.2V7.4z"/><path d="M12 3.2v17.6"/><path d="M4.4 7.4 12 11.6l7.6-4.2"/></svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">Hermes 控制台</div>
+        <div class="brand-sub">AI Agent，触手可及</div>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="search" id="globalSearch">
+        <svg viewBox="0 0 24 24" class="ico"><use href="#i-search"/></svg>
+        <input type="text" id="searchInput" placeholder="搜索功能、Agent 或日志…" autocomplete="off">
+      </div>
+      <button class="icon-btn" id="btnNotify" title="通知与异常">
+        <svg viewBox="0 0 24 24" class="ico"><use href="#i-bell"/></svg>
+        <span class="dot-badge hidden" id="notifyBadge"></span>
+      </button>
+      <div class="avatar" id="avatarBtn" title="本机实例">H</div>
+      <div class="win-controls">
+        <button class="win-btn" data-win="minimize" title="最小化"><svg viewBox="0 0 24 24" class="ico"><use href="#i-min"/></svg></button>
+        <button class="win-btn" data-win="maximize" title="最大化"><svg viewBox="0 0 24 24" class="ico"><use href="#i-max"/></svg></button>
+        <button class="win-btn danger" data-win="close" title="关闭"><svg viewBox="0 0 24 24" class="ico"><use href="#i-x"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- 左侧导航 -->
+    <aside class="sidebar">
+      <nav class="nav" id="navList">
+        <button class="nav-item active" data-page="overview"><svg viewBox="0 0 24 24" class="ico"><use href="#i-home"/></svg><span>总览</span></button>
+        <button class="nav-item" data-page="agent"><svg viewBox="0 0 24 24" class="ico"><use href="#i-agent"/></svg><span>Agent</span></button>
+        <button class="nav-item" data-page="skills"><svg viewBox="0 0 24 24" class="ico"><use href="#i-skills"/></svg><span>Skills</span></button>
+        <button class="nav-item" data-page="capabilities"><svg viewBox="0 0 24 24" class="ico"><use href="#i-ext"/></svg><span>扩展能力</span></button>
+        <button class="nav-item" data-page="model"><svg viewBox="0 0 24 24" class="ico"><use href="#i-model"/></svg><span>模型与认证</span></button>
+        <button class="nav-item" data-page="feishu"><svg viewBox="0 0 24 24" class="ico"><use href="#i-feishu"/></svg><span>飞书连接</span></button>
+        <button class="nav-item" data-page="logs"><svg viewBox="0 0 24 24" class="ico"><use href="#i-logs"/></svg><span>运行日志</span></button>
+        <button class="nav-item" data-page="settings"><svg viewBox="0 0 24 24" class="ico"><use href="#i-settings"/></svg><span>设置</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="foot-title">Same Power.</div>
+        <div class="foot-sub">Different Vibes.</div>
+        <div class="foot-sub dim">让 AI Agent 更好地为你工作</div>
+      </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main" id="mainArea">
+
+      <!-- 总览 -->
+      <section class="page active" id="page-overview">
+        <div class="page-head">
+          <div class="greet">
+            <h1 id="greeting">你好，Commander</h1>
+            <p class="greet-sub" id="greetSub">正在读取当前系统运行状态…</p>
+          </div>
+          <div class="page-head-right">
+            <div class="clock" id="clock">--:--</div>
+            <div class="clock-date" id="clockDate">----</div>
+          </div>
+        </div>
+
+        <div class="cards row-3">
+          <article class="card glass" id="cardGateway">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-shield"/></svg></span>网关状态</div>
+              <span class="pill" id="gwPill">读取中</span>
+            </header>
+            <div class="card-hero">
+              <div class="hero-value" id="gwValue">—</div>
+            </div>
+            <div class="kv-grid">
+              <div class="kv"><span>PID</span><b id="gwPid">—</b></div>
+              <div class="kv"><span>运行时长</span><b id="gwUptime">—</b></div>
+            </div>
+            <div class="card-actions">
+              <button class="btn danger" id="btnGwStop"><svg viewBox="0 0 24 24" class="ico"><use href="#i-stop"/></svg>停止</button>
+              <button class="btn" id="btnGwRestart"><svg viewBox="0 0 24 24" class="ico"><use href="#i-restart"/></svg>重启</button>
+            </div>
+            <div class="card-note" id="gwNote">—</div>
+          </article>
+
+          <article class="card glass" id="cardFeishu">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-feishu"/></svg></span>飞书连接</div>
+              <span class="pill" id="fsPill">读取中</span>
+            </header>
+            <div class="card-hero">
+              <div class="hero-value" id="fsValue">—</div>
+            </div>
+            <div class="kv-grid">
+              <div class="kv"><span>通道</span><b id="fsChannel">—</b></div>
+              <div class="kv"><span>最近更新</span><b id="fsUpdated">—</b></div>
+            </div>
+            <div class="card-actions">
+              <button class="btn" id="btnFsDetail">查看详情</button>
+            </div>
+            <div class="card-note" id="fsNote">—</div>
+          </article>
+
+          <article class="card glass" id="cardModel">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-model"/></svg></span>模型与认证</div>
+              <span class="pill" id="mdPill">读取中</span>
+            </header>
+            <div class="provider-rows" id="providerRows">
+              <div class="provider-row skeleton"></div>
+            </div>
+            <div class="card-actions">
+              <button class="btn" id="btnModelDetail">查看详情</button>
+            </div>
+            <div class="card-note" id="mdNote">—</div>
+          </article>
+        </div>
+
+        <div class="cards row-2">
+          <article class="card glass" id="cardStats">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-star"/></svg></span>今日统计</div>
+              <span class="pill muted" id="statsPill">真实数据</span>
+            </header>
+            <div class="stat-grid">
+              <div class="stat"><div class="stat-num run" id="statRunning">—</div><div class="stat-label">运行中 Agent</div></div>
+              <div class="stat"><div class="stat-num done" id="statDone">—</div><div class="stat-label">已启用 Skills<span class="stat-sub">（仅 default Profile）</span></div></div>
+              <div class="stat"><div class="stat-num fail" id="statFail">—</div><div class="stat-label">待处理异常</div></div>
+            </div>
+            <div class="card-note" id="statsNote">—</div>
+          </article>
+
+          <article class="card glass" id="cardScope">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-model"/></svg></span>范围明细（按 Profile）</div>
+              <span class="pill muted" id="scopePill">真实数据 · 分区统计</span>
+            </header>
+            <div class="table-wrap"><table class="tbl" id="scopeTable">
+              <thead><tr><th>范围</th><th>Gateway</th><th>Skills</th><th>认证</th></tr></thead>
+              <tbody id="scopeRows"><tr><td colspan="4" class="empty">正在读取…</td></tr></tbody>
+            </table></div>
+            <div class="card-note" id="scopeNote">—</div>
+          </article>
+
+          <article class="card glass" id="cardShortcuts">
+            <header class="card-head">
+              <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-skills"/></svg></span>快捷入口</div>
+            </header>
+            <div class="shortcut-grid">
+              <button class="shortcut" data-shortcut="external"><span class="sc-tag">外部</span><span class="sc-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-mic"/></svg></span>外部工程</button>
+              <button class="shortcut" data-shortcut="profile"><span class="sc-tag">外部</span><span class="sc-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-ext"/></svg></span>额外 Profile</button>
+              <button class="shortcut" data-shortcut="logs"><span class="sc-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-folder"/></svg></span>打开日志</button>
+              <button class="shortcut" data-shortcut="settings"><span class="sc-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-settings"/></svg></span>设置</button>
+            </div>
+            <div class="card-note" id="shortcutNote">—</div>
+          </article>
+        </div>
+
+        <article class="card glass" id="cardActivity">
+          <header class="card-head">
+            <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-logs"/></svg></span>最近活动</div>
+            <button class="link-btn" data-goto="logs">查看全部 →</button>
+          </header>
+          <ul class="activity" id="activityList">
+            <li class="empty">正在读取…</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- Agent -->
+      <section class="page" id="page-agent">
+        <div class="page-head"><div class="greet"><h1>Agent</h1><p class="greet-sub">当前 Agent 会话与运行预算</p></div></div>
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">运行中的 Agent</div><span class="pill" id="agentPill">—</span></header>
+          <div class="kv-grid wide">
+            <div class="kv"><span>活动 Agent 数</span><b id="agentActive">—</b></div>
+            <div class="kv"><span>活动会话数</span><b id="agentSessions">—</b></div>
+            <div class="kv"><span>网关繁忙</span><b id="agentBusy">—</b></div>
+            <div class="kv"><span>可安全排空</span><b id="agentDrainable">—</b></div>
+            <div class="kv"><span>Profile 列表</span><b id="agentProfiles">—</b></div>
+            <div class="kv"><span>网关模式</span><b id="agentMode">—</b></div>
+          </div>
+          <div class="card-note">数据来源：官方 /api/status（active_agents · active_sessions · gateway_busy · gateway_drainable · profiles · gateway_mode），均为真实返回值。</div>
+        </article>
+      </section>
+
+      <!-- Skills -->
+      <section class="page" id="page-skills">
+        <div class="page-head"><div class="greet"><h1>Skills</h1><p class="greet-sub">已注册技能的真实列表</p></div></div>
+        <article class="card glass">
+          <header class="card-head">
+            <div class="card-title">技能列表</div>
+            <div class="head-tools">
+              <input class="mini-input" id="skillFilter" placeholder="按名称 / 分类筛选…">
+              <span class="pill" id="skillPill">—</span>
+            </div>
+          </header>
+          <div class="table-wrap"><table class="tbl" id="skillTable">
+            <thead><tr><th>名称</th><th>分类</th><th>来源</th><th>状态</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty">正在读取…</td></tr></tbody>
+          </table></div>
+        </article>
+      </section>
+
+      <!-- 扩展能力 -->
+      <section class="page" id="page-capabilities">
+        <div class="page-head"><div class="greet"><h1>扩展能力</h1><p class="greet-sub">外部工程 与 额外 Profile 的真实安装状态、配置位置与入口</p></div></div>
+
+        <article class="card glass">
+          <header class="card-head">
+            <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-mic"/></svg></span>外部工程 · 外部工程</div>
+            <span class="pill" id="acPill">读取中</span>
+          </header>
+          <div class="kv-grid wide">
+            <div class="kv"><span>安装位置</span><b id="acRepo" class="mono">—</b></div>
+            <div class="kv"><span>运行状态</span><b id="acRunning">—</b></div>
+            <div class="kv"><span>虚拟环境</span><b id="acVenv">—</b></div>
+            <div class="kv"><span>程序模块</span><b id="acModule">—</b></div>
+            <div class="kv"><span>启动器脚本</span><b id="acLauncher">—</b></div>
+            <div class="kv"><span>性质</span><b id="acKind">独立工程</b></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn" id="btnAcOpen">打开项目目录</button>
+            <button class="btn primary" id="btnStartDefault">启动 default 网关</button>
+            <button class="btn danger" id="btnStopDefault" disabled title="停止仅对本控制台启动并持有的实例（A 态）开放；共享/未知实例不提供停止按钮">停止 default 网关</button>
+          </div>
+          <div class="card-note" id="ownDefaultNote">所有权状态：读取中…</div>
+          <div class="switch-row">
+            <div class="switch-text">
+              <b>独立功能开关 · 外部工程 业务</b>
+              <span id="acSwitchReason">检验中…</span>
+            </div>
+            <label class="switch disabled" title="该开关当前不可用">
+              <input type="checkbox" id="acSwitch" disabled>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="card-note" id="acNote">—</div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head">
+            <div class="card-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-ext"/></svg></span>额外 Profile</div>
+            <span class="pill" id="cjPill">读取中</span>
+          </header>
+          <div class="kv-grid wide">
+            <div class="kv"><span>Profile 位置</span><b id="cjDir" class="mono">—</b></div>
+            <div class="kv"><span>技能数量</span><b id="cjSkills">—</b></div>
+            <div class="kv"><span>配置文件</span><b id="cjConfig">—</b></div>
+            <div class="kv"><span>网关状态</span><b id="cjGateway">—</b></div>
+            <div class="kv"><span>网关 PID</span><b id="cjPid">—</b></div>
+            <div class="kv"><span>性质</span><b id="cjKind">Hermes Profile</b></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn" id="btnCjOpen">打开 Profile 目录</button>
+            <button class="btn primary" id="btnStartProfile2">启动 额外 Profile 网关</button>
+            <button class="btn danger" id="btnStopProfile2" disabled title="停止仅对本控制台启动并持有的实例（A 态）开放；共享/未知实例不提供停止按钮">停止 额外 Profile 网关</button>
+          </div>
+          <div class="card-note" id="ownProfile2Note">所有权状态：读取中…</div>
+          <div class="switch-row">
+            <div class="switch-text">
+              <b>独立功能开关 · 额外 Profile</b>
+              <span id="cjSwitchReason">检验中…</span>
+            </div>
+            <label class="switch disabled" title="该开关当前不可用">
+              <input type="checkbox" id="cjSwitch" disabled>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="card-note" id="cjNote">—</div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">能力边界与开关支持范围</div><span class="pill muted" id="switchSupportPill">—</span></header>
+          <div class="card-note">
+            <b>已实现</b>：两个 Profile 的 Gateway <b>手动启动</b>（前置校验 + 真实进程复核）+ 只读状态 + 目录入口。<br>
+            <b>未实现（官方能力不足，如实标注、不做假开关）</b>：独立的「关闭某功能使其不再接收任务」开关。
+            Hermes 当前没有可被可靠调用的"按能力停收消息"接口；把「关闭整个 Gateway」当作「关闭某个技能」是错的，
+            仅改前端布尔值更会造成"显示已关闭、实际仍在运行"的假象 —— 故两处开关<b>显示为不可用</b>并列出原因。<br>
+            <b>已实现（RC 轮）</b>：<b>停止</b>仅对本控制台亲自启动并持有的网关实例（A 态）开放
+            （执行前重新核验身份：同 profile 单实例 + OS 进程核对；共享实例 B 态仍只读、不代停）。<br>
+            <b>仍未开放</b>：重启 / 排空 / 接管 —— 由主进程闸门拒绝（<span class="mono">ALLOW_DANGEROUS_EXEC=false</span>）。
+          </div>
+        </article>
+      </section>
+
+      <!-- 模型与认证 -->
+      <section class="page" id="page-model">
+        <div class="page-head">
+          <div class="greet"><h1>模型与认证</h1><p class="greet-sub">按 Profile 分别展示 Provider、模型与认证状态</p></div>
+          <button class="btn" id="btnAuthRefresh">重新检测</button>
+        </div>
+
+        <div id="authProfileCards" class="auth-cards">
+          <div class="empty">正在读取各 Profile 的模型配置与认证状态…</div>
+        </div>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">口径说明</div></header>
+          <div class="card-note">
+            <b>网关在线 ≠ 飞书连接 ≠ 认证有效 ≠ 模型可调用</b>。本页把四项分开呈现；
+            认证状态来自官方只读命令 <span class="mono">hermes auth status &lt;provider&gt;</span>（按 Profile 分别查询），
+            Provider 与模型直接读自该 Profile 的 <span class="mono">config.yaml</span>。
+            「模型可调用性」只有在真实推理请求成功后才应视为可用，当前未执行该验证，故显示「待验证」。
+          </div>
+          <div class="card-note">
+            控制台<b>不收集</b>密码 / 令牌 / Cookie，<b>不模拟</b>网页登录，<b>不自动切换</b> Provider，
+            也<b>不会停止或重启</b>任何网关。「开始认证」只打开一个独立终端并载入<b>官方命令</b>，由你本人完成授权。
+          </div>
+        </article>
+      </section>
+
+      <!-- 飞书连接 -->
+      <section class="page" id="page-feishu">
+        <div class="page-head"><div class="greet"><h1>飞书连接</h1><p class="greet-sub">平台连接与配置状态</p></div></div>
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">平台状态</div><span class="pill" id="platPill">—</span></header>
+          <div id="platformList" class="platform-list"><div class="empty">正在读取…</div></div>
+          <div class="card-note">连接归属：本控制台后端使用 HERMES_HOME = <b id="fsHome" class="mono">—</b>（默认 Profile）。环境变量仅显示是否已配置，控制台不会读取或展示任何密钥内容。</div>
+        </article>
+      </section>
+
+      <!-- 运行日志 -->
+      <section class="page" id="page-logs">
+        <div class="page-head">
+          <div class="greet">
+            <h1>运行日志</h1>
+            <p class="greet-sub">按来源分别读取真实日志文件（只读，不修改、不截断、不清空）</p>
+          </div>
+        </div>
+
+        <article class="card glass">
+          <header class="card-head">
+            <div class="card-title">来源与筛选</div>
+            <div class="head-tools">
+              <select class="mini-input" id="logSource" title="日志来源（default 与 额外 Profile 是两个独立 Profile；外部工程 不是 Hermes 组件）">
+                <option value="default" selected>default</option>
+                <option value="profile">额外 Profile</option>
+                <option value="external">外部工程（业务）</option>
+                <option value="console">控制台自身</option>
+              </select>
+              <select class="mini-input" id="logFile" title="日志文件"></select>
+              <button class="btn sm" id="btnLogLoad"><svg viewBox="0 0 24 24" class="ico"><use href="#i-refresh"/></svg>读取</button>
+            </div>
+          </header>
+          <div class="head-tools log-filter-row">
+            <select class="mini-input" id="logLevel" title="按级别过滤。ERROR=失败；WARNING=有问题但流程可能继续；INFO=正常记录">
+              <option value="">全部级别</option>
+              <option value="ERROR">只看 ERROR 及以上</option>
+              <option value="WARNING">只看 WARNING 及以上</option>
+              <option value="INFO">INFO 及以上</option>
+            </select>
+            <input class="mini-input" id="logSearch" placeholder="关键词…">
+            <input class="mini-input mono" id="logJobId" placeholder="job_id（12 位）" maxlength="12">
+            <select class="mini-input" id="logOrder" title="时间排序">
+              <option value="desc" selected>最新在前</option>
+              <option value="asc">最早在前</option>
+            </select>
+            <span class="seg" id="logRangeSeg" role="group" aria-label="时间范围">
+              <button type="button" class="seg-btn" data-range="10m">最近 10 分钟</button>
+              <button type="button" class="seg-btn" data-range="1h">最近 1 小时</button>
+              <button type="button" class="seg-btn" data-range="6h">最近 6 小时</button>
+              <button type="button" class="seg-btn on" data-range="all">全部时间</button>
+            </span>
+            <button class="btn sm" id="btnLogIssues" title="只保留 WARNING 及以上（ERROR/WARNING 永不折叠）">只看问题</button>
+            <button class="btn sm" id="btnLogCollapse" title="折叠 / 展开高频重复行（只折叠 INFO/DEBUG，原文全部保留）">折叠重复</button>
+          </div>
+          <div class="head-tools log-filter-row">
+            <span class="log-sub">精确时段</span>
+            <input class="mini-input" id="logSince" placeholder="起 HH:MM" maxlength="5">
+            <input class="mini-input" id="logUntil" placeholder="止 HH:MM" maxlength="5">
+            <button class="btn sm" id="btnLogClear" title="清除全部筛选条件">清除筛选</button>
+            <span class="log-sub" id="logRangeNote"></span>
+          </div>
+          <div class="log-status" id="logStatus">正在读取来源清单…</div>
+        </article>
+
+        <article class="card glass" id="logStagesCard" style="display:none">
+          <header class="card-head"><div class="card-title">阶段概览</div></header>
+          <div class="stage-chips" id="logStages"></div>
+        </article>
+
+        <article class="card glass" id="logJobsCard" style="display:none">
+          <header class="card-head">
+            <div class="card-title">翻唱任务（按 job_id）</div>
+            <div class="head-tools">
+              <button class="btn sm" id="btnLogJobsRefresh">刷新任务</button>
+            </div>
+          </header>
+          <div id="logJobs" class="job-list"><div class="empty">尚未读取。</div></div>
+          <div class="card-note">
+            作业信息来自 <span class="mono">jobs</span> 目录中的作业记录；日志与作业按 job_id
+            <b>子串匹配</b>关联。匹配不到时显示「未知」，不做推测。<br>
+            <b>「制作完成」不等于「已送达」</b>：制作与投递是两条独立的轴，分别显示。
+          </div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head">
+            <div class="card-title">日志内容</div>
+            <div class="head-tools">
+              <span class="log-sub" id="logLevelSummary"></span>
+              <button class="btn sm" id="btnLogOpenFolder">打开日志目录</button>
+            </div>
+          </header>
+          <div class="logview" id="logView">选择来源后点击「读取」。</div>
+          <div class="card-note" id="logNote">—</div>
+        </article>
+      </section>
+
+      <!-- 设置 -->
+      <section class="page" id="page-settings">
+        <div class="page-head"><div class="greet"><h1>设置</h1><p class="greet-sub">生命周期、所有权与本机路径</p></div></div>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">网关生命周期与所有权</div><span class="pill" id="modePill">—</span></header>
+          <div class="setting-row">
+            <div class="setting-text">
+              <b>所有权模型（严格区分 A / B / C）</b>
+              <span><b>A</b> 本控制台亲自启动并持续持有 → <b>关闭控制台不会自动停止它</b>（自动停止能力当前禁用、未通过真实验收；如需停止请在网关卡手动确认）；
+                <b>B</b> 启动控制台前已存在的共享网关 → <b>永不自动停止</b>；
+                <b>C</b> 你对共享服务的一次性明确授权 → 仅本次生效，<b>不会获得所有权</b>。</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn" id="btnGwAdopt" disabled title="本轮未授权：接管会启动真实网关并取得所有权，需先通过真实端到端验收。请改用「扩展能力」页的按 Profile 启动。">启动并接管（A）· 本轮禁用</button>
+            <button class="btn" id="btnGwRelease" disabled title="本轮未取得任何所有权">释放所有权</button>
+          </div>
+          <div class="card-note" id="ownNote">—</div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">安全边界</div></header>
+          <div class="card-note">
+            所有权不能由界面直接设定 —— 界面只能请求「启动并接管」或「签发一次性授权」，
+            真正的判定在主进程 <span class="mono">authorizeDangerous()</span> 内完成。
+            即使绕过界面直接调用 IPC，未经核验的 stop / restart / drain 依然会被拒绝。
+            渲染进程无 Node 权限，无法发起任意 HTTP 或任意命令；openPath 仅允许白名单目录。
+          </div>
+          <div class="card-note" id="autoStopNote">—</div>
+          <div class="card-note" id="dangerNote">—</div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">本机路径</div></header>
+          <div class="kv-grid wide">
+            <div class="kv"><span>HERMES_HOME</span><b id="setHome" class="mono">—</b></div>
+            <div class="kv"><span>hermes 可执行</span><b id="setExe" class="mono">—</b></div>
+            <div class="kv"><span>控制台后端 PID</span><b id="setPid">—</b></div>
+            <div class="kv"><span>后端端口</span><b id="setPort">—</b></div>
+            <div class="kv"><span>控制台日志</span><b id="setLog" class="mono">—</b></div>
+            <div class="kv"><span>Electron</span><b id="setElectron">—</b></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn" id="btnOpenLogs">打开控制台日志目录</button>
+            <button class="btn" id="btnRestartBackend">重启控制台后端</button>
+          </div>
+        </article>
+
+        <article class="card glass">
+          <header class="card-head"><div class="card-title">关于</div></header>
+          <div class="card-note">
+            本控制台复用官方 Hermes 安装（CLI / 配置 / Skills / 音频流水线），
+            通过官方 HTTP API 读取真实数据；不修改上游核心代码，不复制业务逻辑。
+            视觉：山境晨曦 · 毛玻璃现代风。背景为本地原创 SVG，无外部依赖。
+          </div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- 退出提示（严格模式）——关闭控制台 ≠ 停止机器人 -->
+<div class="modal-mask hidden" id="exitModal">
+  <div class="modal glass">
+    <div class="modal-head">
+      <div class="modal-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-shield"/></svg></span>退出前请确认</div>
+      <span class="pill warn" id="exitPill">服务仍在运行</span>
+    </div>
+    <div class="modal-body">
+      <p class="modal-lead">检测到以下服务仍在运行：</p>
+      <ul class="svc-list" id="exitSvcList"></ul>
+      <div class="modal-note" id="exitNote">—</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnExitCancel">返回控制台</button>
+      <button class="btn warn" id="btnExitOnly">仅退出控制台（后台继续运行）</button>
+    </div>
+  </div>
+</div>
+
+<!-- 模型认证（按 Profile）。同一故障去重；认证完成后复核真实状态再消除。 -->
+<div class="modal-mask hidden" id="authModal">
+  <div class="modal glass">
+    <div class="modal-head">
+      <div class="modal-title"><span class="card-ico"><svg viewBox="0 0 24 24" class="ico"><use href="#i-key"/></svg></span><span id="authTitle">模型认证</span></div>
+      <span class="pill" id="authPill">—</span>
+    </div>
+    <div class="modal-body">
+      <div class="kv-grid wide modal-kv">
+        <div class="kv"><span>Profile</span><b id="authProfile">—</b></div>
+        <div class="kv"><span>Provider</span><b id="authProvider">—</b></div>
+        <div class="kv"><span>模型</span><b id="authModel">—</b></div>
+        <div class="kv"><span>认证状态</span><b id="authState">—</b></div>
+      </div>
+      <div class="modal-note" id="authReason">—</div>
+
+      <div class="auth-method">
+        <div class="auth-method-title">官方支持的认证方式</div>
+        <div class="auth-method-body" id="authMethod">—</div>
+      </div>
+
+      <div class="cmd-row">
+        <code class="cmd-box mono" id="authCmd">—</code>
+        <button class="btn sm" id="btnAuthCopy">复制</button>
+      </div>
+      <div class="modal-note" id="authGuidance">—</div>
+      <div class="modal-note warn hidden" id="authFeedback">—</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="btnAuthCancel">取消</button>
+      <button class="btn" id="btnAuthRecheck">重新检测</button>
+      <button class="btn primary" id="btnAuthStart">开始认证</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

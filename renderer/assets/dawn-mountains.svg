@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- 晨曦天空：深夜蓝 -> 暖金 -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#070d1c"/>
+      <stop offset="26%"  stop-color="#12203f"/>
+      <stop offset="48%"  stop-color="#2b3a63"/>
+      <stop offset="64%"  stop-color="#6d5a72"/>
+      <stop offset="76%"  stop-color="#c07a5e"/>
+      <stop offset="86%"  stop-color="#e8a866"/>
+      <stop offset="100%" stop-color="#f2c078"/>
+    </linearGradient>
+
+    <!-- 日出光晕 -->
+    <radialGradient id="sunGlow" cx="0.62" cy="0.70" r="0.42">
+      <stop offset="0%"   stop-color="#ffd9a0" stop-opacity="0.95"/>
+      <stop offset="30%"  stop-color="#ffbf7a" stop-opacity="0.42"/>
+      <stop offset="62%"  stop-color="#e08a63" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#e08a63" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 山体渐变 -->
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8fa3c8" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#4a5b80" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#57688f" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#232f4d" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c3a4d"/>
+      <stop offset="100%" stop-color="#0c1324"/>
+    </linearGradient>
+
+    <!-- 雪冠渐变 -->
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#fff4e2"/>
+      <stop offset="55%"  stop-color="#e6d7c8" stop-opacity="0.78"/>
+      <stop offset="100%" stop-color="#cbbdb2" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- 雾气 -->
+    <linearGradient id="mist" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#cfe0f2" stop-opacity="0"/>
+      <stop offset="45%"  stop-color="#dfe9f6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#cfe0f2" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="soft2" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+
+  <!-- 天空 -->
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+
+  <!-- 稀薄星点（只在夜空区域） -->
+  <g fill="#ffffff" opacity="0.45">
+    <circle cx="140" cy="70" r="1.3"/><circle cx="322" cy="132" r="1"/><circle cx="498" cy="58" r="1.1"/>
+    <circle cx="690" cy="118" r="0.9"/><circle cx="905" cy="72" r="1.2"/><circle cx="1108" cy="138" r="1"/>
+    <circle cx="1290" cy="60" r="1.1"/><circle cx="1478" cy="126" r="0.9"/><circle cx="215" cy="196" r="0.8"/>
+    <circle cx="1010" cy="196" r="0.8"/><circle cx="1360" cy="206" r="0.8"/>
+  </g>
+
+  <!-- 日出光晕 -->
+  <rect width="1600" height="1000" fill="url(#sunGlow)"/>
+
+  <!-- 远景雪山 -->
+  <g filter="url(#soft)">
+    <path fill="url(#far)" d="M-40 700 L150 574 L262 636 L392 486 L520 610 L636 528 L748 636 L880 500 L1000 612 L1120 546 L1256 646 L1392 520 L1520 628 L1640 566 L1640 1000 L-40 1000 Z"/>
+    <path fill="url(#snow)" opacity="0.75" d="M392 486 L432 522 L404 528 L372 508 Z"/>
+    <path fill="url(#snow)" opacity="0.7" d="M880 500 L916 534 L890 540 L860 520 Z"/>
+    <path fill="url(#snow)" opacity="0.65" d="M1392 520 L1428 556 L1400 562 L1370 542 Z"/>
+  </g>
+
+  <!-- 中景雪山 -->
+  <g>
+    <path fill="url(#mid)" d="M-40 806 L120 690 L246 756 L362 620 L486 742 L604 664 L726 774 L858 636 L968 748 L1096 668 L1224 786 L1352 660 L1478 766 L1640 700 L1640 1000 L-40 1000 Z"/>
+    <path fill="url(#snow)" d="M362 620 L404 664 L374 668 L338 644 Z"/>
+    <path fill="url(#snow)" d="M858 636 L898 678 L868 682 L832 658 Z"/>
+    <path fill="url(#snow)" d="M1352 660 L1394 704 L1364 708 L1326 684 Z"/>
+  </g>
+
+  <!-- 雾带 -->
+  <g filter="url(#soft2)">
+    <rect x="-40" y="836" width="1680" height="34" fill="url(#mist)"/>
+    <rect x="-40" y="884" width="1680" height="22" fill="url(#mist)" opacity="0.7"/>
+  </g>
+
+  <!-- 近景山脊 -->
+  <path fill="url(#near)" d="M-40 900 L180 828 L356 882 L540 812 L742 890 L936 822 L1148 898 L1348 830 L1520 890 L1640 856 L1640 1000 L-40 1000 Z" opacity="0.96"/>
+
+  <!-- 底部压暗，保证白色文字可读 -->
+  <linearGradient id="vign" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#050a15" stop-opacity="0.16"/>
+    <stop offset="46%"  stop-color="#050a15" stop-opacity="0.20"/>
+    <stop offset="100%" stop-color="#050a15" stop-opacity="0.62"/>
+  </linearGradient>
+  <rect width="1600" height="1000" fill="url(#vign)"/>
+</svg>

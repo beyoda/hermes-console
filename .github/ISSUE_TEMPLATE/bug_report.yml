@@ -1,0 +1,83 @@
+name: Bug report
+description: Something in Hermes Console is wrong or misleading
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    value: |
+      **Scrub your report before submitting.**
+      Do NOT paste: API keys, tokens, JWTs, Feishu/Lark app IDs or secrets, your real
+      `HERMES_HOME` path, raw logs, or session content. If the log viewer shows `[redacted]`,
+      keep it redacted.
+
+  - type: input
+    id: version
+    attributes:
+      label: Console version
+      description: From the release you downloaded, or the commit hash if built from source.
+      placeholder: v0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 23H2 (build 22631)
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you observed, and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Overview / gateway status
+        - Models & auth
+        - Skills
+        - Extensions / profiles
+        - Agent / sessions
+        - Integrations (Feishu and others)
+        - Logs
+        - Settings
+        - Startup / packaging
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence (redacted)
+      description: |
+        Screenshot or console output. Redact paths, tokens and personal data first.
+        Dragging an image into this box works.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scrubbed
+    attributes:
+      label: Checklist
+      options:
+        - label: I have removed secrets, tokens, personal paths and raw logs from this report
+          required: true

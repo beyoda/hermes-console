@@ -1,0 +1,34 @@
+{
+  "name": "hermes-console",
+  "version": "0.1.0",
+  "description": "Windows-first desktop console for managing Hermes gateway, profiles, models, skills, plugins, sessions and integrations. Independent community project - not an official Hermes application.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "hermes",
+    "electron",
+    "windows",
+    "desktop",
+    "gateway",
+    "console"
+  ],
+  "author": "beyoda",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beyoda/hermes-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/beyoda/hermes-console/issues"
+  },
+  "homepage": "https://github.com/beyoda/hermes-console#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "electron": "^40.0.0"
+  }
+}

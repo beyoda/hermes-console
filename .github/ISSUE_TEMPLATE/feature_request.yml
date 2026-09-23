@@ -1,0 +1,62 @@
+name: Feature request
+description: Suggest a capability for Hermes Console
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    value: |
+      This project prefers small, verifiable improvements over broad rewrites.
+      Please check [ROADMAP.md](../../ROADMAP.md) first — your idea may already be listed.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: Describe the situation you hit, not only the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Overview / gateway status
+        - Models & auth
+        - Skills
+        - Extensions / profiles
+        - Agent / sessions
+        - Integrations (Feishu and others)
+        - Logs
+        - Settings
+        - Startup / packaging
+        - Cross-platform
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety considerations
+      description: |
+        Does this touch gateway start/stop, ownership verification, process control,
+        configuration reading or anything credential-adjacent? If so, say how it stays
+        fail-closed.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contrib
+    attributes:
+      label: Participation
+      options:
+        - label: I am willing to work on this myself
+        - label: I am only proposing the idea

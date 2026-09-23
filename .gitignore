@@ -1,0 +1,54 @@
+# ---------- runtime / user data ----------
+logs/
+sessions/
+memories/
+audio_cache/
+image_cache/
+pairing/
+cron/
+hooks/
+*.log
+
+# ---------- local state produced by the app ----------
+gateway.pid
+gateway.lock
+gateway_state.json
+console-*.log
+
+# ---------- secrets / local config ----------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+config.local.yaml
+*_secret*.json
+*ownership*.json
+
+# ---------- node / electron ----------
+node_modules/
+dist/
+build/
+out/
+*.asar
+resources/app/
+electron/
+
+# ---------- packaging artifacts ----------
+*.zip
+*.7z
+*.sha256
+
+# ---------- OS / editor ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# ---------- test scratch ----------
+tests/tmp/
+tests/.tmp*/
+coverage/
