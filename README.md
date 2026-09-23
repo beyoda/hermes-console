@@ -140,7 +140,7 @@ Main files:
 | `logsources.js` | Pure logic: multi-source log parsing, folding, secret redaction |
 | `watchdog.js` | Supervises the console process for crash-side gateway decisions |
 | `renderer/` | UI (no Node integration; talks to main only through `preload.js`) |
-| `tests/` | 12 suites, 513 assertions, run with `node --test` |
+| `tests/` | 12 suites, 514 assertions (515 when an Electron process is already running — one real-condition check in `process-probe` only executes then), run with `node --test` |
 
 ---
 
