@@ -19,23 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party runtime
-
-The portable Windows bundle redistributes the Electron runtime
-(https://www.electronjs.org), Copyright (c) OpenJS Foundation and other
-contributors, licensed under the MIT License. Its license file is shipped
-alongside the binary in the release archive as `LICENSE.electron.txt`.
-
-This repository contains no vendored third-party source code. All application
-code under `main.js`, `renderer/`, and the `*.js` logic modules is original
-work licensed under the terms above.
-
-Relationship to Hermes
-
-This project is an independent community project. It is not affiliated with,
-endorsed by, or distributed as part of the Hermes project. It does not copy or
-redistribute Hermes source code; it only invokes the locally installed
-`hermes` command line interface at runtime.
